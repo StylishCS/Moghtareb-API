@@ -12,4 +12,5 @@ export default {
     url: process.env.DATABASE_URL || "",
   },
   casing: "snake_case",
+  extensionsFilters: ["postgis"],
 } satisfies Config;
