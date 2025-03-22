@@ -1,7 +1,13 @@
 import { drizzle } from "drizzle-orm/bun-sql";
 import * as schema from "./drizzle.schema";
+import * as relations from "./drizzle.relations";
 import { Injectable } from "@nestjs/common";
 import { IConfig } from "../../config/config.interface";
+
+const schemaWithRelations = {
+  ...schema,
+  ...relations,
+} as const;
 
 export abstract class IDrizzleService {
   abstract db: ReturnType<typeof initDrizzle>;
@@ -17,7 +23,7 @@ export class DrizzleService implements IDrizzleService {
 
 function initDrizzle(config: IConfig) {
   return drizzle(config.databaseUrl, {
-    schema: { ...schema },
+    schema: { ...schemaWithRelations },
     casing: "snake_case",
   });
 }

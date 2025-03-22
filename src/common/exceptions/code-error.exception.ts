@@ -1,15 +1,21 @@
 // src/common/exceptions/code-error-exception.ts
-import { HttpException, HttpStatus } from '@nestjs/common';
-import { ApiProperty, ApiSchema } from '@nestjs/swagger';
-import { ErrorCode } from './error-code.enum';
+import { HttpException, HttpStatus, Logger } from "@nestjs/common";
+import { ApiProperty, ApiSchema } from "@nestjs/swagger";
+import { ErrorCode } from "./error-code.enum";
 
-@ApiSchema({ name: 'CodeError' })
+@ApiSchema({ name: "CodeError" })
 export class CodeErrorException<
   const C extends ErrorCode = ErrorCode,
   const I = unknown,
-  const M extends string = string,
+  const M extends string = string
 > extends HttpException {
-  constructor(code: C, message: M, info: I, status: HttpStatus, cause?: unknown) {
+  constructor(
+    code: C,
+    message: M,
+    info: I,
+    status: HttpStatus,
+    cause?: unknown
+  ) {
     super(message, status, { cause });
     this.code = code;
     this.message = message;
@@ -21,52 +27,71 @@ export class CodeErrorException<
   }
   static invalid<const I, const M extends string | undefined = undefined>(
     info: I,
-    message?: M,
-  ): CodeErrorException<ErrorCode.Invalid, I, M extends NonNullable<M> ? M : 'Something is invalid'> {
+    message?: M
+  ): CodeErrorException<
+    ErrorCode.Invalid,
+    I,
+    M extends NonNullable<M> ? M : "Something is invalid"
+  > {
     return new CodeErrorException(
       ErrorCode.Invalid,
       (message ? message : `${info} is invalid`) as never,
       info,
-      HttpStatus.BAD_REQUEST,
+      HttpStatus.BAD_REQUEST
     );
   }
 
-  static uniqueConstraintViolation<const I, const M extends string | undefined = undefined>(
-    info: I,
-    message?: M,
-  ) {
+  static uniqueConstraintViolation<
+    const I,
+    const M extends string | undefined = undefined
+  >(info: I, message?: M) {
     return new CodeErrorException(
       ErrorCode.UniqueConstraintViolation,
       (message ? message : `${info} already exist`) as never,
       info,
-      HttpStatus.CONFLICT,
+      HttpStatus.CONFLICT
     );
   }
 
   static internal<const I>(info: I, cause?: unknown) {
     return new CodeErrorException(
       ErrorCode.Internal,
-      'An unknown error occurred',
+      "An unknown error occurred",
       info,
       HttpStatus.INTERNAL_SERVER_ERROR,
-      cause,
+      cause
     );
   }
 
-  static notFound<const I extends string, const M extends string | undefined = undefined>(
+  static notFound<
+    const I extends string,
+    const M extends string | undefined = undefined
+  >(
     info: I,
-    message?: M,
-  ): CodeErrorException<ErrorCode.NotFound, I, M extends NonNullable<M> ? M : `${I} not found`> {
+    message?: M
+  ): CodeErrorException<
+    ErrorCode.NotFound,
+    I,
+    M extends NonNullable<M> ? M : `${I} not found`
+  > {
     return new CodeErrorException(
       ErrorCode.NotFound,
       (message ? message : `${info} not found`) as never,
       info,
-      HttpStatus.NOT_FOUND,
+      HttpStatus.NOT_FOUND
     );
   }
 
-  static unauthorized<const I extends string, const M extends string | undefined = undefined>(info: I, message?: M) {
-    return new CodeErrorException(ErrorCode.Unauthorized, message ?? 'Unauthorized', info, HttpStatus.UNAUTHORIZED);
+  static unauthorized<
+    const I extends string,
+    const M extends string | undefined = undefined
+  >(info: I, message?: M) {
+    return new CodeErrorException(
+      ErrorCode.Unauthorized,
+      message ?? "Unauthorized",
+      info,
+      HttpStatus.UNAUTHORIZED
+    );
   }
 
   override getResponse() {
@@ -92,6 +117,6 @@ export class CodeErrorException<
   /**
    * Additional information about the error.
    */
-  @ApiProperty({ type: 'object', properties: {} })
+  @ApiProperty({ type: "object", properties: {} })
   info: I;
 }

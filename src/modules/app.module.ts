@@ -7,6 +7,8 @@ import { AppController } from "./app.controller";
 import { DrizzleModule } from "./drizzle/drizzle.module";
 import { GlobalModule } from "./global.module";
 import { AuthModule } from "./auth/auth.module";
+import { AdModule } from "./ad/ad.module";
+import { StorageModule } from "./storage/storage.module";
 
 @Module({})
 export class AppModule {
@@ -15,7 +17,9 @@ export class AppModule {
       module: AppModule,
       imports: [
         DrizzleModule,
+        // StorageModule.register({ config }),
         AuthModule.register({ config }),
+        AdModule.register(),
         GlobalModule.register({
           providers: [
             {
@@ -39,13 +43,13 @@ export class AppModule {
               throttlers: [
                 {
                   name: "default",
-                  limit: 10, // Default throttler limit
-                  ttl: 60, // Default throttler TTL (in seconds)
+                  limit: 10,
+                  ttl: 60,
                 },
                 {
                   name: "auth",
-                  limit: 3, // Allow 3 requests
-                  ttl: 3600, // 1 hour
+                  limit: 3,
+                  ttl: 3600,
                 },
               ],
               ttl: 60,

@@ -3,9 +3,9 @@
   "module": "dist/main.js",
   "type": "module",
   "scripts": {
-  "dev": "bun run --watch src/main.ts",
-  "build": "bun run drizzle-kit generate && tsc",
-  "start": "bun run dist/main.js"
+    "dev": "bun run --watch src/main.ts",
+    "build": "bun run drizzle-kit generate && tsc",
+    "start": "bun run dist/main.js"
   },
   "devDependencies": {
     "typescript": "^5.0.0",
@@ -14,6 +14,8 @@
     "@types/pluralize": "^0.0.33"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.758.0",
+    "@aws-sdk/s3-request-presigner": "^3.758.0",
     "@kiyasov/platform-hono": "^1.4.2",
     "@liaoliaots/nestjs-redis": "^10.0.0",
     "@nestjs/common": "^11.0.10",
@@ -26,9 +28,12 @@
     "@oslojs/encoding": "^1.1.0",
     "@types/pg": "^8.11.11",
     "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
     "drizzle-kit": "^0.30.4",
     "drizzle-orm": "^0.39.3",
+    "effect": "^3.13.11",
     "lodash-es": "^4.17.21",
+    "mime": "^4.0.6",
     "nestjs-throttler-storage-redis": "^0.5.1",
     "pg": "^8.13.3",
     "pluralize": "^8.0.0",

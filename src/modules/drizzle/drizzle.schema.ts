@@ -75,7 +75,7 @@ export const ads = pgTable("ads", {
   administrativeFees: integer().notNull(),
   insurance: integer().notNull(),
   rate: integer().notNull(),
-  additionalNotes: text(),
+  additionalNotes: multiLanguageColumn(),
   images: fileColumn().array(),
   isAccepted: boolean().default(false),
   isDeleted: boolean().default(false),

@@ -1,5 +1,5 @@
 import { RedisService } from "@liaoliaots/nestjs-redis";
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { eq } from "drizzle-orm";
 import Redis from "ioredis";
 import { IAuthService } from "../auth.service";
@@ -132,9 +132,7 @@ export class UserStrategy implements IUserStrategy {
    *
    * @throws An error if the user is not found or the password is invalid.
    */
-  async signIn({
-    phone,
-  }: SignInDto): Promise<{
+  async signIn({ phone }: SignInDto): Promise<{
     otp: { code: string; expiresAt: Date; type: OtpType };
     userId: number;
   }> {
@@ -167,9 +165,7 @@ export class UserStrategy implements IUserStrategy {
    * @returns A promise that resolves to an object containing the new session
    *          and user information.
    */
-  async signUp(
-    createUserDto: CreateUserDto
-  ): Promise<{
+  async signUp(createUserDto: CreateUserDto): Promise<{
     user: User;
     otp: { code: string; expiresAt: Date; type: OtpType };
   }> {
@@ -178,7 +174,6 @@ export class UserStrategy implements IUserStrategy {
       .values(createUserDto)
       .returning();
 
-      console.log(user);
 
     const otp = await this.sendOtp({ userId: user.id, type: OtpType.SIGN_UP });
 

@@ -1,5 +1,6 @@
 import {
   IsEnum,
+  IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
@@ -13,6 +14,8 @@ import { UserSubType, UserType } from "../../../drizzle/enums/user.enum";
 import { MultiLanguageDto } from "../../../../common/dto/multi-language.dto";
 
 export class SignInDto {
+  @IsString()
+  @IsNotEmpty()
   @ApiProperty()
   phone: string;
 }
