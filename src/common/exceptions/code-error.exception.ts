@@ -54,6 +54,8 @@ export class CodeErrorException<
   }
 
   static internal<const I>(info: I, cause?: unknown) {
+    Logger.log(`Internal error: ${info}`, "CodeErrorException");
+    Logger.log(cause, "CodeErrorException");
     return new CodeErrorException(
       ErrorCode.Internal,
       "An unknown error occurred",

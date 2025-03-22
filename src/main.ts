@@ -40,8 +40,8 @@ async function main() {
     });
 
     const swaggerConfig = new DocumentBuilder()
-      .setTitle("Boiler Code")
-      .setDescription("The Boiler Code API description")
+      .setTitle("Moghtareb API")
+      .setDescription("The Moghtareb API description")
       .setVersion("0.1")
       .addBearerAuth()
       .addCookieAuth()
